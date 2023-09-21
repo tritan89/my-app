@@ -1,13 +1,29 @@
 import React, { useState } from "react";
 
-const Todo = (props: any) => {
+type ToggleTaskCompleted = (name:string) => void
+
+type DeleteTask = (name:string) => void
+type EditTask = (name: string, arg1: string) => void
+
+type TodoProp = {
+  id: string
+      name: string
+      completed: boolean
+      key : string
+      toggleTaskCompleted : ToggleTaskCompleted
+      deleteTask:DeleteTask
+      editTask: EditTask
+}
+
+
+const Todo = (props: TodoProp) => {
   const [isEditing, setEditing] = useState(false);
   const [newName, setNewName] = useState("");
-  function handleChange(e:any) {
-    setNewName(e.target.value);
+  function handleChange(e:React.FormEvent) {
+    setNewName((e.target as HTMLTextAreaElement).value);
   }
   
-  function handleSubmit(e:any) {
+  function handleSubmit(e:React.FormEvent) {
     e.preventDefault();
     props.editTask(props.id, newName);
     setNewName("");

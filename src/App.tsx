@@ -4,18 +4,21 @@ import Form from "./components/Form";
 import FilterButton from "./components/FilterButton";
 import { nanoid } from "nanoid";
 
+
+type AppProps = {tasks : Task[]}
+
 const FILTER_MAP = {
   All: () => true,
-  Active: (task: any) => !task.completed,
-  Completed: (task: any) => task.completed,
+  Active: (task: Task) => !task.completed,
+  Completed: (task: Task) => task.completed,
 };
 const FILTER_NAMES = Object.keys(FILTER_MAP);
 
-function App(props: any) {
+function App(props: AppProps) {
   const [tasks, setTasks] = useState(props.tasks);
   const [filter, setFilter] = useState("All");
 
-  const taskList = tasks.filter(FILTER_MAP[filter as keyof typeof FILTER_MAP]  ).map((task: any) => (
+  const taskList = tasks.filter(FILTER_MAP[filter as keyof typeof FILTER_MAP]  ).map((task: Task) => (
     <Todo
       id={task.id}
       name={task.name}
@@ -41,8 +44,8 @@ function App(props: any) {
     setTasks([...tasks, newTask]);
   }
 
-  function toggleTaskCompleted(id: any) {
-    const updatedTasks = tasks.map((task: any) => {
+  function toggleTaskCompleted(id: string) {
+    const updatedTasks = tasks.map((task: Task) => {
       // if this task has the same ID as the edited task
       if (id === task.id) {
         // use object spread to make a new object
@@ -54,13 +57,13 @@ function App(props: any) {
     setTasks(updatedTasks);
   }
 
-  function deleteTask(id: any) {
-    const remainingTasks = tasks.filter((task: any) => id !== task.id);
+  function deleteTask(id: string) {
+    const remainingTasks = tasks.filter((task: Task) => id !== task.id);
     setTasks(remainingTasks);
   }
 
-  function editTask(id: any, newName: any) {
-    const editedTaskList = tasks.map((task: any) => {
+  function editTask(id: string, newName: string) {
+    const editedTaskList = tasks.map((task: Task) => {
       // if this task has the same ID as the edited task
       if (id === task.id) {
         //
@@ -73,7 +76,7 @@ function App(props: any) {
 
   return (
     <div className="todoapp stack-large">
-      <h1>TodoMatic</h1>
+      <h1>TodoItAll</h1>
       <Form addTask={addTask} />
       <div className="filters btn-group stack-exception">{filterList}</div>
       <h2 id="list-heading">{taskList.length} tasks remaining</h2>

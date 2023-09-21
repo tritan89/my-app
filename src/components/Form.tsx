@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 
+type AddTask = (name:string) => void
+type FormProp = {
+  addTask : AddTask
+}
 
-
-
-const Form = (props:any) => {
+const Form = (props:FormProp) => {
     const [name, setName] = useState("");
-    function handleSubmit(e:any){
+    function handleSubmit(e:React.FormEvent){
         if (!(name ==="")){
             e.preventDefault()
             props.addTask(name)
@@ -16,9 +18,9 @@ const Form = (props:any) => {
         }
        
       }
-    function handleChange(e:any){
+    function handleChange(e:React.ChangeEvent){
         
-        setName(e.target.value)
+        setName((e.target as HTMLTextAreaElement).value)
         console.log(name)
       }
   return (
